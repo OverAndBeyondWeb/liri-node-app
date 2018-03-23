@@ -37,15 +37,26 @@ if (command === 'my-tweets') {
 }
 if (command === 'spotify-this-song') {
 
-  var song = process.argv[3] || 'The Sign';
+  var song = process.argv[3] || 'The+Sign';
   console.log(song);
 
+  
   spotify.search({ type: 'track', query: song }, function(err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
   
-    console.log(JSON.stringify(data, null, 2)); 
+    var list = data.tracks.items;
+    
+    list.forEach(function(item, index) {
+      console.log('-------- Item ' + index + ' ---------');
+      item.artists.forEach(function(artist) {
+        console.log('artist: ' + artist.name);
+      });
+      console.log('song name: ' + item.name);
+      console.log('preview link: ' + item.href);
+      console.log('album name: ' + item.album.name + '\n');
+    });
   });
 }
 if (command === 'movie-this') {
