@@ -27,30 +27,38 @@ if (command === 'my-tweets') {
 
   console.log('these the tweets');
 
-
-  // client.get('trends/available', function(error, tweets, response) {
-  //   if(error) throw error;
-  //   console.log(tweets);  // The favorites. 
-  //   console.log(JSON.stringify(response, null, 2));  // Raw response object. 
-  // });
+  var params = {screen_name: 'smith_jro'};
+  client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    if(error) throw error;
+    tweets.forEach(function(tweet) {
+      console.log(tweet);
+    });  // The favorites. 
+  });
 }
 if (command === 'spotify-this-song') {
 
   var song = process.argv[3] || 'The Sign';
   console.log(song);
 
-  // spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-  //   if (err) {
-  //     return console.log('Error occurred: ' + err);
-  //   }
+  spotify.search({ type: 'track', query: song }, function(err, data) {
+    if (err) {
+      return console.log('Error occurred: ' + err);
+    }
   
-  //   console.log(JSON.stringify(data, null, 2)); 
-  // });
+    console.log(JSON.stringify(data, null, 2)); 
+  });
 }
 if (command === 'movie-this') {
 
   var movie = process.argv[3] || 'Mr. Nobody';
-  console.log(movie);
+  var formattedMovie = movie.split(' ').join('+');
+  console.log(formattedMovie);
+  var url = 'http://img.omdbapi.com/?apikey=trilogy&s=superman';
+
+  request(url, function(err, resp, body) {
+    console.log(JSON.stringify(body, null, 2));
+    console.log(JSON.stringify(resp, null, 2));
+  });
 
 }
 
