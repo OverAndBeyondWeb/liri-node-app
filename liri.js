@@ -64,11 +64,18 @@ if (command === 'movie-this') {
   var movie = process.argv[3] || 'Mr. Nobody';
   var formattedMovie = movie.split(' ').join('+');
   console.log(formattedMovie);
-  var url = 'http://img.omdbapi.com/?apikey=trilogy&s=superman';
+  var url = 'http://www.omdbapi.com/?apikey=trilogy&t=' + formattedMovie;
 
   request(url, function(err, resp, body) {
-    console.log(JSON.stringify(body, null, 2));
-    console.log(JSON.stringify(resp, null, 2));
+    var data = JSON.parse(body);
+    console.log('Title: ' + data.Title);
+    console.log('Year: ' + data.Year);
+    console.log('imdbRating: ' + data.imdbRating);
+    console.log('Rotten Tomatoes rating: ' + data.Ratings[0].Value);
+    console.log('Country: ' + data.Country);
+    console.log('Language: ' + data.Language);
+    console.log('Plot: ' + data.Plot);
+    console.log('Actors: ' + data.Actors);
   });
 
 }
